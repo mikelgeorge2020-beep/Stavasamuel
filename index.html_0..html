@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>منظومة الحسابات والمخزون - كنيسة القديس الأنبا صموئيل المعترف</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&family=Noto+Sans+Arabic:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Cairo', 'Noto Sans Arabic', 'sans-serif'],
+          },
+          colors: {
+            primary: {
+              50: '#f0f7ff',
+              100: '#e0effe',
+              600: '#0284c7',
+              700: '#0369a1',
+              900: '#0c4a6e',
+            },
+            church: {
+              navy: '#0b192c',
+              gold: '#d4af37',
+              card: '#1e3e62',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body {
+      font-family: 'Cairo', 'Noto Sans Arabic', sans-serif;
+      background-color: #f1f5f9;
+    }
+  </style>
+</head>
+<body class="text-slate-800 antialiased min-h-screen flex flex-col justify-between">
+
+  <!-- Header -->
+  <header class="bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 text-white shadow-lg border-b border-amber-500/30">
+    <div class="max-w-6xl mx-auto px-4 py-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-3">
+      <div class="flex items-center gap-3 text-center sm:text-right">
+        <div class="w-12 h-12 rounded-xl bg-amber-500/20 border border-amber-400/40 flex items-center justify-center text-amber-400 text-2xl shadow-inner">
+          <i class="fa-solid fa-church"></i>
+        </div>
+        <div>
+          <h1 class="text-xl sm:text-2xl font-bold tracking-tight text-white flex items-center gap-2">
+            كنيسة القديس الأنبا صموئيل المعترف
+          </h1>
+          <p class="text-xs sm:text-sm text-slate-300">منظومة الحسابات والمخزون الموحدة للأقسام الثمانية</p>
+        </div>
+      </div>
+      <div class="flex items-center gap-2 bg-emerald-950/80 text-emerald-300 border border-emerald-500/40 px-3 py-1.5 rounded-full text-xs font-semibold">
+        <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
+        قاعدة البيانات متصلة (جاهزة للتسجيل)
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="max-w-6xl mx-auto px-4 py-6 sm:px-6 w-full space-y-6">
+
+    <!-- KPI Summary Cards (All Initialized to 0 EGP) -->
+    <section class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+      
+      <!-- Total Cash Balance -->
+      <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-200 flex items-center justify-between relative overflow-hidden">
+        <div class="space-y-1">
+          <span class="text-xs font-medium text-slate-500">إجمالي أرصدة الخزائن (نقدية)</span>
+          <div class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight" id="kpi-cash-balance">
+            0 <span class="text-base font-semibold text-slate-500">ج.م</span>
+          </div>
+          <span class="inline-flex items-center text-[11px] font-semibold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-md">
+            <i class="fa-solid fa-check-circle ml-1"></i> رصيد مبدئي نظيف
+          </span>
+        </div>
+        <div class="w-12 h-12 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center text-xl">
+          <i class="fa-solid fa-vault"></i>
+        </div>
+      </div>
+
+      <!-- Total Revenues -->
+      <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-200 flex items-center justify-between relative overflow-hidden">
+        <div class="space-y-1">
+          <span class="text-xs font-medium text-slate-500">إجمالي إيرادات الأقسام</span>
+          <div class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight" id="kpi-total-revenue">
+            0 <span class="text-base font-semibold text-slate-500">ج.م</span>
+          </div>
+          <span class="text-[11px] text-slate-400">إجمالي تراكمي يبدأ من الصفر</span>
+        </div>
+        <div class="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-xl">
+          <i class="fa-solid fa-arrow-trend-up"></i>
+        </div>
+      </div>
+
+      <!-- Total Expenses -->
+      <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-200 flex items-center justify-between relative overflow-hidden">
+        <div class="space-y-1">
+          <span class="text-xs font-medium text-slate-500">إجمالي المصروفات التشغيلية</span>
+          <div class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight" id="kpi-total-expenses">
+            0 <span class="text-base font-semibold text-slate-500">ج.م</span>
+          </div>
+          <span class="text-[11px] text-slate-400">مسحوبات ومصروفات الأقسام</span>
+        </div>
+        <div class="w-12 h-12 rounded-xl bg-rose-50 text-rose-600 flex items-center justify-center text-xl">
+          <i class="fa-solid fa-arrow-trend-down"></i>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- Invoice Entry Form -->
+    <section class="bg-white rounded-2xl shadow-sm border border-slate-200 p-5 sm:p-6">
+      <div class="flex items-center justify-between pb-4 mb-4 border-b border-slate-100">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center text-lg">
+            <i class="fa-solid fa-receipt"></i>
+          </div>
+          <div>
+            <h2 class="text-lg font-bold text-slate-900">تسجيل فاتورة بيع جديدة وخصم المخزون</h2>
+            <p class="text-xs text-slate-500">يقوم النظام بخصم الصنف من المخزن وإضافة المبلغ لخزينة القسم آلياً</p>
+          </div>
+        </div>
+        <span class="hidden sm:inline-flex items-center gap-1.5 text-xs text-amber-700 bg-amber-50 px-2.5 py-1 rounded-lg border border-amber-200 font-medium">
+          <i class="fa-solid fa-bolt text-amber-500"></i> تسجيل فوري مباشر
+        </span>
+      </div>
+
+      <form id="invoice-form" class="space-y-4">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          
+          <!-- Sector Select -->
+          <div class="space-y-1.5">
+            <label class="block text-xs font-bold text-slate-700">القسم التابع له الإيراد</label>
+            <select id="sector-select" required class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2.5 text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white transition">
+              <option value="poultry_farm">مزرعة بركة صموئيل للدواجن والبيض</option>
+              <option value="library">مكتبة الكنيسة ومنافذ بيع الكتب</option>
+              <option value="buses">قطاع الأتوبيسات والرحلات الديرية</option>
+              <option value="garments_factory">مصنع وتطريز الملابس الكنسية والزي</option>
+              <option value="canteen">كانتين الكنيسة وقاعة الضيافة</option>
+              <option value="elderly_care">دار القديسين لرعاية المسنين</option>
+              <option value="special_needs">مركز الرجاء لذوي الاحتياجات الخاصة</option>
+              <option value="events_hall">قاعة المناسبات واستقبالات الأفراح</option>
+            </select>
+          </div>
+
+          <!-- Item Name -->
+          <div class="space-y-1.5">
+            <label class="block text-xs font-bold text-slate-700">الصنف / البيان</label>
+            <input type="text" id="item-name" placeholder="مثال: كرتونة بيض أحمر، كتاب، تذكرة" required class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2.5 text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white transition">
+          </div>
+
+          <!-- Quantity -->
+          <div class="space-y-1.5">
+            <label class="block text-xs font-bold text-slate-700">الكمية المباعة</label>
+            <input type="number" id="item-qty" min="1" value="1" required class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2.5 text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white transition">
+          </div>
+
+          <!-- Unit Price -->
+          <div class="space-y-1.5">
+            <label class="block text-xs font-bold text-slate-700">سعر الوحدة (ج.م)</label>
+            <input type="number" id="unit-price" min="0" step="any" placeholder="0" required class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2.5 text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white transition">
+          </div>
+
+        </div>
+
+        <div class="flex flex-col sm:flex-row items-center justify-between gap-4 pt-3 border-t border-slate-100">
+          <div class="text-sm font-semibold text-slate-700">
+            إجمالي الفاتورة المطلوب تحصيله: <span id="total-display" class="text-lg font-extrabold text-blue-700 font-mono">0 ج.م</span>
+          </div>
+
+          <button type="submit" class="w-full sm:w-auto bg-blue-700 hover:bg-blue-800 text-white font-bold px-6 py-2.5 rounded-xl shadow-md hover:shadow-lg transition flex items-center justify-center gap-2">
+            <i class="fa-solid fa-floppy-disk"></i>
+            حفظ وترحيل الفاتورة في النظام
+          </button>
+        </div>
+      </form>
+    </section>
+
+    <!-- The 8 Church Sectors (All Initialized to 0 EGP) -->
+    <section class="space-y-3">
+      <div class="flex items-center justify-between">
+        <h3 class="text-base font-bold text-slate-900 flex items-center gap-2">
+          <i class="fa-solid fa-layer-group text-blue-600"></i>
+          أقسام الكنيسة الثمانية (حالة الخزائن الحالية)
+        </h3>
+        <span class="text-xs text-slate-500 font-medium">8 أقسام تشغيلية معتمدة</span>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5">
+
+        <!-- 1. Library -->
+        <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm space-y-2">
+          <div class="flex items-center justify-between text-xs text-slate-400">
+            <span class="font-semibold text-blue-700 bg-blue-50 px-2 py-0.5 rounded">مكتبات</span>
+            <span>#1</span>
+          </div>
+          <h4 class="font-bold text-slate-800 text-sm">مكتبة الكنيسة والكتب</h4>
+          <div class="pt-2 border-t border-slate-100 flex items-center justify-between">
+            <span class="text-xs text-slate-500">الخزينة:</span>
+            <span class="text-base font-black text-slate-900" id="balance-library">0 ج.م</span>
+          </div>
+        </div>
+
+        <!-- 2. Buses -->
+        <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm space-y-2">
+          <div class="flex items-center justify-between text-xs text-slate-400">
+            <span class="font-semibold text-amber-700 bg-amber-50 px-2 py-0.5 rounded">رحلات ودير</span>
+            <span>#2</span>
+          </div>
+          <h4 class="font-bold text-slate-800 text-sm">قطاع الأتوبيسات والرحلات</h4>
+          <div class="pt-2 border-t border-slate-100 flex items-center justify-between">
+            <span class="text-xs text-slate-500">الخزينة:</span>
+            <span class="text-base font-black text-slate-900" id="balance-buses">0 ج.م</span>
+          </div>
+        </div>
+
+        <!-- 3. Farm -->
+        <div class="bg-white p-4 rounded-xl border-2 border-emerald-500 shadow-sm space-y-2 relative">
+          <span class="absolute -top-2.5 left-3 bg-emerald-600 text-white text-[10px] font-bold px-2 py-0.5 rounded-full">
+            إنتاج داجني
+          </span>
+          <div class="flex items-center justify-between text-xs text-slate-400">
+            <span class="font-semibold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded">مزارع</span>
+            <span>#3</span>
+          </div>
+          <h4 class="font-bold text-slate-800 text-sm">مزرعة بركة صموئيل</h4>
+          <div class="pt-2 border-t border-slate-100 flex items-center justify-between">
+            <span class="text-xs text-slate-500">الخزينة:</span>
+            <span class="text-base font-black text-emerald-700" id="balance-poultry_farm">0 ج.م</span>
+          </div>
+        </div>
+
+        <!-- 4. Garments Factory -->
+        <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm space-y-2">
+          <div class="flex items-center justify-between text-xs text-slate-400">
+            <span class="font-semibold text-purple-700 bg-purple-50 px-2 py-0.5 rounded">ملابس كهنوتية</span>
+            <span>#4</span>
+          </div>
+          <h4 class="font-bold text-slate-800 text-sm">مصنع الملابس والتطريز</h4>
+          <div class="pt-2 border-t border-slate-100 flex items-center justify-between">
+            <span class="text-xs text-slate-500">الخزينة:</span>
+            <span class="text-base font-black text-slate-900" id="balance-garments_factory">0 ج.م</span>
+          </div>
+        </div>
+
+        <!-- 5. Canteen -->
+        <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm space-y-2">
+          <div class="flex items-center justify-between text-xs text-slate-400">
+            <span class="font-semibold text-orange-700 bg-orange-50 px-2 py-0.5 rounded">ضيافة</span>
+            <span>#5</span>
+          </div>
+          <h4 class="font-bold text-slate-800 text-sm">كانتين الكنيسة وقاعة الضيافة</h4>
+          <div class="pt-2 border-t border-slate-100 flex items-center justify-between">
+            <span class="text-xs text-slate-500">الخزينة:</span>
+            <span class="text-base font-black text-slate-900" id="balance-canteen">0 ج.م</span>
+          </div>
+        </div>
+
+        <!-- 6. Elderly Care -->
+        <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm space-y-2">
+          <div class="flex items-center justify-between text-xs text-slate-400">
+            <span class="font-semibold text-teal-700 bg-teal-50 px-2 py-0.5 rounded">رعاية ومسنين</span>
+            <span>#6</span>
+          </div>
+          <h4 class="font-bold text-slate-800 text-sm">دار القديسين للمسنين</h4>
+          <div class="pt-2 border-t border-slate-100 flex items-center justify-between">
+            <span class="text-xs text-slate-500">الخزينة:</span>
+            <span class="text-base font-black text-slate-900" id="balance-elderly_care">0 ج.م</span>
+          </div>
+        </div>
+
+        <!-- 7. Special Needs -->
+        <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm space-y-2">
+          <div class="flex items-center justify-between text-xs text-slate-400">
+            <span class="font-semibold text-pink-700 bg-pink-50 px-2 py-0.5 rounded">رعاية خاصة</span>
+            <span>#7</span>
+          </div>
+          <h4 class="font-bold text-slate-800 text-sm">مركز الرجاء للاحتياجات</h4>
+          <div class="pt-2 border-t border-slate-100 flex items-center justify-between">
+            <span class="text-xs text-slate-500">الخزينة:</span>
+            <span class="text-base font-black text-slate-900" id="balance-special_needs">0 ج.م</span>
+          </div>
+        </div>
+
+        <!-- 8. Events Hall -->
+        <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm space-y-2">
+          <div class="flex items-center justify-between text-xs text-slate-400">
+            <span class="font-semibold text-indigo-700 bg-indigo-50 px-2 py-0.5 rounded">أفراح ومناسبات</span>
+            <span>#8</span>
+          </div>
+          <h4 class="font-bold text-slate-800 text-sm">قاعة المناسبات والاستقبالات</h4>
+          <div class="pt-2 border-t border-slate-100 flex items-center justify-between">
+            <span class="text-xs text-slate-500">الخزينة:</span>
+            <span class="text-base font-black text-slate-900" id="balance-events_hall">0 ج.م</span>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-white border-t border-slate-200 py-4 mt-8 text-center text-xs text-slate-500">
+    النظام المالي والمحاسبي الموحد © كنيسة القديس الأنبا صموئيل المعترف — جميع الحقوق محفوظة لبيت الرب
+  </footer>
+
+  <!-- Interactive JavaScript Engine (LocalStorage & Clean Zeroed State) -->
+  <script>
+    const STORAGE_KEY = 'church_finance_records_v1';
+
+    // Sectors initial data (all zeroes)
+    const defaultData = {
+      totalCash: 0,
+      totalRevenue: 0,
+      totalExpenses: 0,
+      sectors: {
+        library: 0,
+        buses: 0,
+        poultry_farm: 0,
+        garments_factory: 0,
+        canteen: 0,
+        elderly_care: 0,
+        special_needs: 0,
+        events_hall: 0
+      },
+      invoices: []
+    };
+
+    function loadData() {
+      const saved = localStorage.getItem(STORAGE_KEY);
+      if (saved) {
+        try {
+          return JSON.parse(saved);
+        } catch (e) {
+          return defaultData;
+        }
+      }
+      return defaultData;
+    }
+
+    function saveData(data) {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+      renderData();
+    }
+
+    function formatEGP(val) {
+      return Number(val || 0).toLocaleString('ar-EG') + ' ج.م';
+    }
+
+    function renderData() {
+      const data = loadData();
+      
+      // Update KPIs
+      document.getElementById('kpi-cash-balance').innerHTML = Number(data.totalCash || 0).toLocaleString('ar-EG') + ' <span class="text-base font-semibold text-slate-500">ج.م</span>';
+      document.getElementById('kpi-total-revenue').innerHTML = Number(data.totalRevenue || 0).toLocaleString('ar-EG') + ' <span class="text-base font-semibold text-slate-500">ج.م</span>';
+      document.getElementById('kpi-total-expenses').innerHTML = Number(data.totalExpenses || 0).toLocaleString('ar-EG') + ' <span class="text-base font-semibold text-slate-500">ج.م</span>';
+
+      // Update Sectors
+      for (const [key, balance] of Object.entries(data.sectors)) {
+        const el = document.getElementById('balance-' + key);
+        if (el) {
+          el.innerText = formatEGP(balance);
+        }
+      }
+    }
+
+    // Live calculation in form
+    const qtyInput = document.getElementById('item-qty');
+    const priceInput = document.getElementById('unit-price');
+    const totalDisplay = document.getElementById('total-display');
+
+    function updateTotal() {
+      const q = parseFloat(qtyInput.value) || 0;
+      const p = parseFloat(priceInput.value) || 0;
+      const t = q * p;
+      totalDisplay.innerText = t.toLocaleString('ar-EG') + ' ج.م';
+    }
+
+    qtyInput.addEventListener('input', updateTotal);
+    priceInput.addEventListener('input', updateTotal);
+
+    // Handle Form Submit
+    document.getElementById('invoice-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const sectorId = document.getElementById('sector-select').value;
+      const itemName = document.getElementById('item-name').value;
+      const qty = parseFloat(qtyInput.value) || 1;
+      const price = parseFloat(priceInput.value) || 0;
+      const total = qty * price;
+
+      if (total <= 0) {
+        alert('يرجى إدخال كمية وسعر صحيحين');
+        return;
+      }
+
+      const current = loadData();
+      current.totalCash = (current.totalCash || 0) + total;
+      current.totalRevenue = (current.totalRevenue || 0) + total;
+      current.sectors[sectorId] = (current.sectors[sectorId] || 0) + total;
+      current.invoices.push({
+        sectorId,
+        itemName,
+        qty,
+        price,
+        total,
+        date: new Date().toISOString()
+      });
+
+      saveData(current);
+
+      // Reset Form
+      document.getElementById('item-name').value = '';
+      qtyInput.value = '1';
+      priceInput.value = '';
+      updateTotal();
+
+      alert('تم حفظ الفاتورة بنجاح وترحيل ' + total.toLocaleString('ar-EG') + ' ج.م إلى خزينة القسم!');
+    });
+
+    // Initial render
+    renderData();
+  </script>
+</body>
+</html>
